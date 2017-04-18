@@ -2,6 +2,9 @@
 # -*- coding: utf-8 -*-
 
 import re
+import enchant
+
+punctuations = (".", ";", "!", "?", ",", "...", "'")
 
 def normalise(sent, lang):
     sent = re.sub("\'\'", '"', sent) # two single quotes = double quotes
@@ -49,6 +52,7 @@ def dialogue(lang):
 
     while(exit):
         rawInput = input(">>>")
+        d = enchant.Dict("en_US")
 
         if rawInput == "exit":
             exit = False
@@ -56,6 +60,26 @@ def dialogue(lang):
             normalisedInput = normalise(rawInput, lang)
             tokenisedInput = tokenise(normalisedInput, lang)
             print(tokenisedInput)
+            for token in tokenisedInput:
+                if (d.check(token)):
+                    print("ok")
+                else:
+                    print("erreur")
+            if (is_english_sentence(tokenisedInput)):
+                print("correct sentence")
+            else:
+                print("incorrect sentence")
+
+    
+
+def is_english_sentence(tokens):
+    d = enchant.Dict("en_US")
+    for token in tokens:
+        if (not (token in punctuations)) and (not (d.check(token))):
+            return False
+    return True
+
+# utiliser nltk
 
 
 if __name__ == '__main__':
