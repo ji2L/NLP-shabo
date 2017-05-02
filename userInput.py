@@ -19,6 +19,13 @@ DICT_GOOD = ("good", "fine", "like", "love", "amazing", "excellent", "great", "e
 DICT_BAD = ("bad")
 DICT_LEFT = ("left")
 DICT_RIGHT = ("right")
+
+PERSONAL_ANSWERS_NOUN = {"name" : "My name is Shabo :)",
+						 "colour" : "Red of course"}
+PERSONAL_ANSWERS_ADJ = {"old" : "I was born with anarchism in 1840",
+						"tall" : "49,3 cm"}
+PERSONAL_ANSWERS_VERB = {"live" : "I live in Paris"}
+
 	
 
 
@@ -65,7 +72,6 @@ def checkGreetings(userInput):
     for word in userInput:
         if word in GREETING_KEYWORDS:
             return True
-    
     return False
 
 
@@ -81,6 +87,38 @@ def is_question(first_token, last_token):
 			return True
 	else:
 		return False
+		
+# retourne l'indice de "you" ou de "your" pour une question peronnelle
+# retourne -1 si la question n'est pas personnelle
+def private_question(question):
+	# on commence par checker la fin de la phrase (question commence par "how")
+	if (question[len(question)-2] == "you"):
+		return len(question)-2
+	# on check ensuite si on trouve un "your" ou "you" dans la phrase
+	elif ((question[0] != "how") and (question[0] in INTEROGATIVE)):
+		for i in range(0,len(question)):
+			if((question[i] == "your") or (question[i] == "you")):
+				return i
+	return -1
+
+# réponse à une question privée	
+def answer_private_question(pos, question):
+	# premier cas : question du genre "what is your name?"
+	if ((question[0] == "what") and (question[pos] == "your")):
+		# recherche du nom désigné par "your"
+		# on élimine les adjectifs et autre "very" etc
+		if (question[pos+1] not in PERSONAL_ANSWERS_NOUN):
+			pos=pos+1
+		if (question[pos+1] not in PERSONAL_ANSWERS_NOUN):
+			pos=pos+1
+		noun = question[pos+1]
+		if (noun in PERSONAL_ANSWERS_NOUN):
+			return PERSONAL_ANSWERS_NOUN[noun]
+		else:
+			return "error answer private question"
+	# deuxieme cas : question avec "you" à la fin
+	elif (pos == len(question)-2):#A FAIRE
+		return "you at the end"
 		
 # tutorile pour sysnets : https://pythonprogramming.net/wordnet-nltk-tutorial/
 def print_synonym(word):
@@ -110,9 +148,14 @@ def dialogue(lang):
             else:
                 print("incorrect sentence")
             if (is_question(tokenisedInput[0], tokenisedInput[len(tokenisedInput)-1])):
-                print("it is a question")
+                #print("it is a question")
+                if (private_question(tokenisedInput) != -1):
+                    #print("it is a private question (", private_question(tokenisedInput), ")")
+                    print(answer_private_question(private_question(tokenisedInput), tokenisedInput))
+                else:
+                    #print("it is not a private question")
             else:
-                print("it is not a question")
+                #print("it is not a question")
 
 
     
@@ -127,7 +170,6 @@ def is_english_sentence(tokens):
 
 
 if __name__ == '__main__':
-	print_synonym('word')
-    #dialogue("en")
-    #print(random.choice(GOODBYE_RESPONSES))
+    dialogue("en")
+    print(random.choice(GOODBYE_RESPONSES))
 
