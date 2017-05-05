@@ -21,8 +21,14 @@ DICT_GOOD = ["good", "fine", "like", "love", "amazing", "excellent", "great", "e
 			"favorable", "great", "marvelous", "positive", "satisfactory", "superb", "valuable", "wonderful", "ace", "admirable", 
 			"splendid", "welcome", "agreeable", "super", "nice"]
 DICT_BAD = ["bad", "nefast", "wrong"]
-DICT_LEFT = ["left", "communism", "leftist", "socialism", "communists", "socialists", "equality", "anarchism", "anarchists", "marx", "staline", "lenine", "kropotkine", "proudhon", "mao", "castro", "che"]
-DICT_RIGHT = ["capitalism", "bourgeois", "bourgeoisie", "shareholder", "boss", "CEO"]
+
+
+DICT_LEFT = ["left", "communism", "leftist", "ussr", "gulag", "gulags", "healthcare", "cuba", "socialism", "communists", "comrade", "socialists", "equality", "anarchism", "anarchists", "collectivism", "collectivists", "marx", "staline", "lenine", "kropotkine", "proudhon", "mao", "castro", "che"]
+DICT_RIGHT = ["capitalism", "bourgeois", "bourgeoisie", "shareholder", "property", "boss", "CEO", "company", "companies", "usa", "america", "united states"]
+
+#DICT_RIGHT_FINAL = []
+
+#DICT_LEFT_FINAL = []
 
 LEFT_RESPONSES3 = ["Comrade Lenine would be so proud of you :'(", "How many times did you read Capital, by Marx ? I would say 2 or 3 times", "Are you a Gulag administrator ?"]
 LEFT_RESPONSES2 = ["You should read Marx or Kropotkine. In no time you'll say that Staline did nothing wrong", "I could bet that you're a socialist. Am I wrong ?"]
@@ -43,7 +49,8 @@ RIGHT_RESPONSES_BAD1 = ["You're too nice with capitalism.", "You're on the good 
 RIGHT_RESPONSES_BAD2 = ["I agree !", "You're right (no word play)"]
 RIGHT_RESPONSES_BAD3 = ["Are... are you the chosen one ?", "I've been waiting you a long time"]
 
-MULTIPLICATORS = ["absolutly", "very", "really", "lot"]
+MULTIPLICATORS = ["absolutely", "very", "really", "lot"]
+MULTIPLICATORS_FINAL = []
 MULTIPLICATORS_NEG = ["nothing"]
 
 DICT_GOOD1 = ["good", "like", "acceptable", "valuable", "positive", "satisfactory"]
@@ -115,7 +122,9 @@ def politicalArguments(userInput):
 	humor = good - bad
 	
 	#On applique un coefficiant multiplicateur pour les adverbes
+	
 	humor *= mult
+	#print(humor)
 	
 	#Si < 0, phrase parlant de la gauche, si > 0, phrasep parlant de la droite, sinon indéterminé
 	political = left - right
@@ -131,14 +140,14 @@ def politicalArguments(userInput):
 			print(random.choice(RIGHT_RESPONSES3))
 		else:
 			print(random.choice(NEUTRAL_RESPONSES3))
-	elif humor >= 2:
+	elif humor == 2:
 		if political > 0:
 			print(random.choice(LEFT_RESPONSES2))
 		elif political < 0:
 			print(random.choice(RIGHT_RESPONSES2))
 		else:
 			print(random.choice(NEUTRAL_RESPONSES2))
-	elif humor >= 1:
+	elif humor == 1:
 		if political > 0:
 			print(random.choice(LEFT_RESPONSES1))
 		elif political < 0:
@@ -152,14 +161,14 @@ def politicalArguments(userInput):
 			print(random.choice(RIGHT_RESPONSES))
 		else:
 			print(random.choice(NEUTRAL_RESPONSES))
-	elif humor <= -1:
+	elif humor == -1:
 		if political > 0:
 			print(random.choice(LEFT_RESPONSES_BAD1))
 		elif political < 0:
 			print(random.choice(RIGHT_RESPONSES_BAD1))
 		else:
 			print(random.choice(NEUTRAL_RESPONSES_BAD1))
-	elif humor <= -2:
+	elif humor == -2:
 		if political > 0:
 			print(random.choice(LEFT_RESPONSES_BAD2))
 		elif political < 0:
@@ -271,5 +280,8 @@ def is_english_sentence(tokens):
 
 
 if __name__ == '__main__':
+    for word in MULTIPLICATORS:
+        for syn in wn.synsets(word):
+            MULTIPLICATORS_FINAL.append(syn.lemmas()[0].name())
     dialogue()
 print(random.choice(GOODBYE_RESPONSES))
