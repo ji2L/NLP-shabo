@@ -7,36 +7,25 @@ import random
 
 # sentences we'll respond with if the user greeted us
 GOODBYE_RESPONSES = ["Goodbye.", "See you soon !", "Cya.", "Farewell, friend."]
-GREETING_KEYWORDS = ("hello", "hi", "greetings", "sup",)
-GREETING_RESPONSES = ["Hello.", "Hey !", "Hi."]
+GREETING_KEYWORDS = ("hello", "hi", "greetings", "sup", "hey",)
+GREETING_RESPONSES = ["Hello.", "Hey !", "Hi.", "Well met !"]
+HYD_LIST_KEYWORDS = [("how", "are", "you", "?"),("how", "are", "you", "doing", "?")]
+HYD_RESPONSES = ["I suffer from crippling depression.", "I'm ... I'm fine.", "I'm so tired even a sloth could beat me in a race.", "F.I.N.E."]
+AGE_LIST_KEYWORDS = ["how", "old", "are", "you", "?"]
+AGE_RESPONSES = ["I'm old enough to know better than you."]
 PUNCTUATIONS = (".", ";", "!", "?", ",", "...", "'")
 
-def normalise(sent, lang):
+def normalise(sent):
     sent = re.sub("\'\'", '"', sent) # two single quotes = double quotes
     sent = re.sub("[`‘’]+", r"'", sent) # normalise apostrophes/single quotes
     sent = re.sub("[≪≫“”]", '"', sent) # normalise double quotes
-
-    if lang=="en":
-        sent = re.sub("([a-z]{3,})or", r"\1our", sent) # replace ..or words with ..our words (American versus British)
-        sent = re.sub("([a-z]{2,})iz([eai])", r"\1is\2", sent) # replace ize with ise (..ise, ...isation, ..ising)
-    if lang=="fr":
-        replacements = [("keske", "qu' est -ce que"), ("estke", "est -ce que"), ("bcp", "beaucoup")] # etc.
-        for (original, replacement) in replacements:
-            sent = re.sub("(^| )"+original+"( |$)", r"\1"+replacement+r"\2", sent)
+    sent = re.sub("([a-z]{3,})or", r"\1our", sent) # replace ..or words with ..our words (American versus British)
+    sent = re.sub("([a-z]{2,})iz([eai])", r"\1is\2", sent) # replace ize with ise (..ise, ...isation, ..ising)
+    
     return sent.lower()
     
 
-def tokenise(sent, lang):
-    if lang=="en":
-        return tokenise_en(sent)
-    elif lang=="fr":
-        return tokenise_fr(sent)
-    else:
-        exit("Lang: "+str(lang)+" not recognised for tokenisation.\n")
-
-
-def tokenise_en(sent):
-
+def tokenise(sent):
     sent = re.sub("([^ ])\'", r"\1 '", sent) # separate apostrophe from preceding word by a space if no space to left
     sent = re.sub(" \'", r" ' ", sent) # separate apostrophe from following word if a space is left
 
@@ -58,14 +47,43 @@ def checkGreetings(userInput):
     return False
 
 
+def checkHYD(userInput):
+    for sublist in HYD_LIST_KEYWORDS:
+        fail = False
+        if len(userInput) >= len(sublist):
+            for keyword, word in zip(sublist, userInput):
+                if keyword != word:
+                    fail = True
+                    break
+
+            if not fail:
+                return True
+
+    return False
+
+
+def checkAge(userInput):
+    fail = False # A FINIR
+    for keyword, word in zip(AGE_LIST_KEYWORDS, userInput):
+        if keyword != word:
+            fail = True
+            break
+
+    return not fail
+
+
 def respond(userInput):
     if checkGreetings(userInput):
         print(random.choice(GREETING_RESPONSES))
+    elif checkHYD(userInput):
+        print(random.choice(HYD_RESPONSES))
+    elif checkAge(userInput):
+        print(random.choice(AGE_RESPONSES))
     else:
-        print("I did not understand, could you reformulate please ?")
+        print("I did not understand, could you please repeat or reformulate ?")
 
 
-def dialogue(lang):
+def dialogue():
     exit = True
 
     print("..:://ShaBo\\\\::..")
@@ -77,10 +95,9 @@ def dialogue(lang):
         if rawInput == "bye":
             exit = False
         else:
-            normalisedInput = normalise(rawInput, lang)
-            tokenisedInput = tokenise(normalisedInput, lang)
+            normalisedInput = normalise(rawInput)
+            tokenisedInput = tokenise(normalisedInput)
 
-            print(tokenisedInput)
             #for token in tokenisedInput:
             #    if (d.check(token)):
             #        print("ok")
@@ -103,12 +120,12 @@ def is_english_sentence(tokens):
             return False
     return True
 
-# utiliser nltk
+# utiliser nltk/wordnet
 
             
 
 
 if __name__ == '__main__':
-    dialogue("en")
+    dialogue()
     print(random.choice(GOODBYE_RESPONSES))
 
