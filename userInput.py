@@ -4,6 +4,7 @@
 import re
 import enchant
 import random
+from nltk.corpus import wordnet as wn
 
 # sentences we'll respond with if the user greeted us
 GOODBYE_RESPONSES = ["Goodbye.", "See you soon !", "Cya.", "Farewell, friend."]
@@ -14,6 +15,16 @@ HYD_RESPONSES = ["I suffer from crippling depression.", "I'm ... I'm fine.", "I'
 AGE_LIST_KEYWORDS = ["how", "old", "are", "you", "?"]
 AGE_RESPONSES = ["I'm old enough to know better than you."]
 PUNCTUATIONS = (".", ";", "!", "?", ",", "...", "'")
+MODALS = ("are", "is", "will", "would", "do", "does", "can", "could", "should", "shall", "may", "might", "must", "have")
+INTEROGATIVE = ("what", "why", "where", "when", "pyplotplatlib", "penelop", "how", "which", "whose")
+DICT_GOOD = ("good", "fine", "like", "love", "amazing", "excellent", "great", "exceptional", "acceptable", "excellent", "exceptional",
+			"favorable", "great", "marvelous", "positive", "satisfactory", "superb", "valuable", "wonderful", "ace", "admirable", 
+			"splendid", "welcome", "agreeable", "super", "nice")
+DICT_BAD = ("bad")
+DICT_LEFT = ("left")
+DICT_RIGHT = ("right")
+	
+
 
 def normalise(sent):
     sent = re.sub("\'\'", '"', sent) # two single quotes = double quotes
@@ -81,6 +92,20 @@ def respond(userInput):
         print(random.choice(AGE_RESPONSES))
     else:
         print("I did not understand, could you please repeat or reformulate ?")
+        
+
+def is_question(first_token, last_token):
+	if (last_token == "?"):
+		if (first_token in MODALS) or (first_token in INTEROGATIVE):
+			return True
+	else:
+		return False
+		
+
+# tutorile pour sysnets : https://pythonprogramming.net/wordnet-nltk-tutorial/
+def print_synonym(word):
+	for syn in wn.synsets(word):
+		print(syn.lemmas()[0].name())
 
 
 def dialogue():
@@ -98,17 +123,17 @@ def dialogue():
             normalisedInput = normalise(rawInput)
             tokenisedInput = tokenise(normalisedInput)
 
-            #for token in tokenisedInput:
-            #    if (d.check(token)):
-            #        print("ok")
-            #    else:
-            #        print("erreur")
+            print(tokenisedInput)
+            
             if (is_english_sentence(tokenisedInput)):
                 print("correct sentence")
                 respond(tokenisedInput)
             else:
                 print("incorrect sentence")
-
+            if (is_question(tokenisedInput[0], tokenisedInput[len(tokenisedInput)-1])):
+                print("it is a question")
+            else:
+                print("it is not a question")
 
 
     
@@ -119,10 +144,6 @@ def is_english_sentence(tokens):
         if (not (token in PUNCTUATIONS)) and (not (d.check(token))):
             return False
     return True
-
-# utiliser nltk/wordnet
-
-            
 
 
 if __name__ == '__main__':
