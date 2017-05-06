@@ -7,7 +7,9 @@ ShaBo has ben designed to react to politicals arguments and to answer the user's
 
 Usage :
     Language : python
+    
     Version : 3.4.2
+    
     Libraries : NLTK, pyEnchant (both can be installed with pip)
       You will be required to install the WordNet package from the NLTK library : use "import nltk" then "nltk.download()" in a python CLI then download the wordnet package.
 
