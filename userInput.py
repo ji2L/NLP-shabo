@@ -74,7 +74,7 @@ def checkHYD(userInput):
 
 
 def checkAge(userInput):
-    fail = False # A FINIR
+    fail = False
     for keyword, word in zip(AGE_LIST_KEYWORDS, userInput):
         if keyword != word:
             fail = True
@@ -102,7 +102,7 @@ def is_question(first_token, last_token):
 		return False
 		
 
-# tutorile pour sysnets : https://pythonprogramming.net/wordnet-nltk-tutorial/
+# tutoriel pour sysnets : https://pythonprogramming.net/wordnet-nltk-tutorial/
 def print_synonym(word):
 	for syn in wn.synsets(word):
 		print(syn.lemmas()[0].name())
