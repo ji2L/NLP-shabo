@@ -1,9 +1,9 @@
 # NLP-shabo
 NLP : assignement
 
-ShaBo is a political chatbot which goal is to answer your questions about specific terms and concepts used in politics aswell as giving you his personal point of view on this topics.
+ShaBo is a political chatbot which goal is to answer your questions about specific terms and concepts used in politics aswell as giving you his personal point of view on these topics.
 
-ShaBo has ben designed to react to politicals arguments and to answer the user's questions.
+ShaBo has ben designed to react to political arguments and to answer the user's questions.
 
 Language : python
     
