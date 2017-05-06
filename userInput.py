@@ -38,7 +38,7 @@ DICT_GOOD = ["good", "fine", "like", "love", "amazing", "excellent", "great", "e
 # dictionary of negatively oriented words
 DICT_BAD = ["bad", "nefast", "wrong"]
 # dictionary of  left-wing oriented words
-DICT_LEFT = ["left", "communism", "leftist", "ussr", "gulag", "gulags", "healthcare", "cuba", "socialism", "communists", "comrade", "socialists", "equality", "anarchism", "anarchists", "collectivism", "collectivists", "marx", "staline", "lenine", "kropotkine", "proudhon", "mao", "castro", "che"]
+DICT_LEFT = ["left", "communism", "leftist", "ussr", "gulag", "gulags", "healthcare", "cuba", "socialism", "communists", "comrade", "socialists", "equality", "anarchism", "anarchists", "collectivism", "collectivists", "marx", "staline", "lenine", "stalin", "lenin", "kropotkine", "proudhon", "mao", "castro", "che"]
 # dictionary of right-wing oriented words
 DICT_RIGHT = ["capitalism", "bourgeois", "bourgeoisie", "shareholder", "shareholders", "property", "boss", "CEO", "company", "companies", "usa", "america", "united states"]
 
@@ -46,34 +46,53 @@ DICT_RIGHT = ["capitalism", "bourgeois", "bourgeoisie", "shareholder", "sharehol
 
 #DICT_LEFT_FINAL = []
 
-# lists of responses to political arguments
-
+#Réponses si commentaire positif sur la gauche 3 = commentaire très positif, 1 = légèrement positif
 LEFT_RESPONSES3 = ["Comrade Lenine would be so proud of you :')", "How many times did you read Capital, by Marx ? I would say 2 or 3 times.", "Are you a Gulag administrator ?"]
 LEFT_RESPONSES2 = ["You should read Marx or Kropotkine. In no time you'll say that Staline did nothing wrong.", "I could bet that you're a socialist. Am I wrong ?"]
 LEFT_RESPONSES1 = ["You should ask me questions, you're on the right way.", "You're the kind of leftist who supports Obama, right ?"]
 
+#Réponses à une phrase potentiellement neutre sur la gauche
 LEFT_RESPONSES = ["You don't know what to think about socialism or communism ? Just ask me !", "You seem interestsed in socialism, don't you ?"]
 
+#Réponses si commentaire négatif sur la gauche 3 = commentaire très négatif, 1 = légèrement négatif
 LEFT_RESPONSES_BAD1 = ["I think we could do something about you, but you're on the wrong path.", "You're not totally hopeless. Try alternative medias."]
 LEFT_RESPONSES_BAD2 = ["Oh, you couldn't be more wrong about socialism. Fortunately, I am here.", "Be ware of Gulag with your remarks."]
 LEFT_RESPONSES_BAD3 = ["Why do you hate leftists so much ?", "You're the severest person who talk about communism", "Are you American ?"]
 
+#Réponses si commentaire positif sur la droite 3 = commentaire très positif, 1 = légèrement positif
 RIGHT_RESPONSES3 = ["You're an happy bourgeois now but take care, revolution is coming (before winter).", "Keep your Capitalists theories for yourself."]
 RIGHT_RESPONSES2 = ["I am sure I can save you from Capitalism.", "Stop with the provocation."]
 RIGHT_RESPONSES1 = ["You don't know what you're talking about...", "You should stop watching that much TV."]
 
+#Réponses à une phrase potentiellement neutre sur la droite
 RIGHT_RESPONSES = ["You don't know what to think about capitalism ? Just ask me !"]
+
+#Réponses si commentaire négatif sur la droite 3 = commentaire très négatif, 1 = légèrement négatif
 RIGHT_RESPONSES_BAD1 = ["You're too nice with capitalism.", "You're on the right way but you need to continue."]
 RIGHT_RESPONSES_BAD2 = ["I agree !", "You're right (no pun intended)."]
 RIGHT_RESPONSES_BAD3 = ["Are... are you the chosen one ?", "I've been waiting for you for such a long time !"]
 
+#Liste d'averbe qui influences le sens d'une phrase
 MULTIPLICATORS = ["absolutely", "very", "really", "lot"]
-MULTIPLICATORS_FINAL = []
-MULTIPLICATORS_NEG = ["nothing"]
 
+#Rempli avec les synonymes de MULTIPLICATORS
+MULTIPLICATORS_FINAL = []
+
+#Adverbes qui inversent le sens d'une phrase
+MULTIPLICATORS_NEG = ["nothing", "not"]
+
+#Mots-clé positifs, répartis en 3 niveau d'intensité
 DICT_GOOD1 = ["good", "like", "acceptable", "valuable", "positive", "satisfactory"]
 DICT_GOOD2 = ["fine", "great", "marvelous", "admirable"]
 DICT_GOOD3 = ["amazing", "excellent", "exceptional", "wonderful"]
+
+#Mots-clé négatifs
+DICT_BAD1 = ["bad", "wrong", "indecent"]
+DICT_BAD2 = ["odious", "despicable", "immoral"]
+DICT_BAD3 = ["hateful", "repugnant", "evil"]
+
+#Dictionnaire personnel pour compléter celui d'enchant
+PERSONNAL_DICT = ["staline", "stalin", "lenin", "lenine"]
 
 
 # functions that normalizes the user's input
@@ -113,46 +132,75 @@ def checkGreetings(userInput):
 
 # functions that answers a political argument
 def politicalArguments(userInput):
+	#Compteur de positivité de la phrase
 	good = 0
+	
+	#Compteur de négativité de la phrase
 	bad = 0
+	
+	#Variable de tendance gauche
 	left = 0
+	
+	#Variable de tendance droite
 	right = 0
+	
+	#Multiplicateur des adverbes
 	mult = 1
+	
+	
 	for word in userInput:
+		#Mot positif de degré 1
 		if word in DICT_GOOD1:
 			good+=1
+			
+		#Mot positif de degré 2
 		elif word in DICT_GOOD2:
 			good+=2
+			
+		#Mot positif de degré 3
 		elif word in DICT_GOOD3:
 			good+=3
-		elif word in DICT_BAD:
+			
+		#Mot négatif de degré 1
+		elif word in DICT_BAD1:
 			bad+=1
+			
+		#Mot négatif de degré 2
+		elif word in DICT_BAD2:
+			bad+=2
+			
+		#Mot négatif de degré 3
+		elif word in DICT_BAD3:
+			bad+=3
+			
+		#Mot associé à un vocabulaire de gauche
 		elif word in DICT_LEFT:
 			left+=1
+			
+		#Mot associé à un vocabulaire de droite
 		elif word in DICT_RIGHT:
 			right+=1
+			
+		#Adverbe
 		elif word in MULTIPLICATORS:
 			mult+=1
-		elif word in MULTIPLICATORS_NEG:
-			mult-=1
 			
+		#Mot de négation
+		elif word in MULTIPLICATORS_NEG:
+			mult = -1
+			
+	#On sort si la phrase n'a pas de tendance politique
 	if left == 0 and right == 0:
 		return False
 	#Si < 0, phrase plutôt négative, si > 0 plutôt positive et 0 neutre
 	humor = good - bad
 	
 	#On applique un coefficiant multiplicateur pour les adverbes
-	
 	humor *= mult
-	#print(humor)
 	
 	#Si < 0, phrase parlant de la gauche, si > 0, phrasep parlant de la droite, sinon indéterminé
 	political = left - right
-	#print(left)
-	#print(right)
-	#print(political)
-	#print(good)
-	#print(bad)
+
 	if humor >= 3:
 		if political > 0:
 			print(random.choice(LEFT_RESPONSES3))
@@ -206,7 +254,8 @@ def politicalArguments(userInput):
 
 
 # functions that answers a political questions
-def function politicalQuestion(userInput):
+#def function politicalQuestion(userInput):
+	#return False
     
 
 
@@ -245,9 +294,9 @@ def respond(userInput):
         print(random.choice(HYD_RESPONSES))
     elif checkAge(userInput):
         print(random.choice(AGE_RESPONSES))
-    elif isQuestion(userInput):
-        politicalQuestion(userInput)
-    else :
+    #elif isQuestion(userInput):
+        #politicalQuestion(userInput)
+    else:
         politicalArguments(userInput)
     #else:
     #   print("I did not understand, could you please repeat or reformulate ?")
@@ -301,7 +350,7 @@ def is_english_sentence(tokens):
     d_us = enchant.Dict("en_US")
     d_uk = enchant.Dict("en_UK")
     for token in tokens:
-        if ((not (token in PUNCTUATIONS)) and (not d_us.check(token)) and (not d_uk.check(token))):
+        if ((not (token in PUNCTUATIONS)) and (not d_us.check(token)) and (not d_uk.check(token)) and (not (token in PERSONNAL_DICT))):
             print("not correct")
             return False
     return True
