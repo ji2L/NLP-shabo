@@ -9,23 +9,40 @@ Usage :
     Language : python
     Version : 3.4.2
     Libraries : NLTK, pyEnchant (both can be installed with pip)
-      You will be required to install the WordNet package from the NLTK library : use "import nltk" then "nltk.download()" in a python CLI then download the wordnet package
+      You will be required to install the WordNet package from the NLTK library : use "import nltk" then "nltk.download()" in a python CLI then download the wordnet package.
 
 Example :
 >>>Hi
-<response>
+
+[response]
+
 >>>How are you ?
-<response>
+
+[response]
+
 >>>What's your name ?
-<response>
+
+[response]
+
 >>>How old are you ?
-<response>
+
+[response]
+
 >>>Are you human ?
-<response>
+
+[response]
+
 >>>What is communism ?
-<response>
+
+[response]
+
 >>>Communism is the best thing ever !
-<response>
+
+[response]
+
 >>>bye
-<response>
-<end>
+
+[response]
+
+[end]
+
