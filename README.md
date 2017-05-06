@@ -5,7 +5,6 @@ ShaBo is a political chatbot which goal is to answer your questions about specif
 
 ShaBo has ben designed to react to politicals arguments and to answer the user's questions.
 
-Usage :
 Language : python
     
 Version : 3.4.2
