@@ -6,12 +6,13 @@ ShaBo is a political chatbot which goal is to answer your questions about specif
 ShaBo has ben designed to react to politicals arguments and to answer the user's questions.
 
 Usage :
-    Language : python
+Language : python
     
-    Version : 3.4.2
+Version : 3.4.2
     
-    Libraries : NLTK, pyEnchant (both can be installed with pip)
-      You will be required to install the WordNet package from the NLTK library : use "import nltk" then "nltk.download()" in a python CLI then download the wordnet package.
+Libraries : NLTK, pyEnchant (both can be installed with pip)
+
+You will be required to install the WordNet package from the NLTK library : use "import nltk" then "nltk.download()" in a python CLI then download the wordnet package.
 
 Example :
 >Hi
