@@ -57,8 +57,8 @@ DICT_RIGHT = ["capitalism", "bourgeois", "bourgeoisie", "shareholder", "sharehol
 #DICT_LEFT_FINAL = []
 
 #Réponses si commentaire positif sur la gauche 3 = commentaire très positif, 1 = légèrement positif
-LEFT_RESPONSES3 = ["Comrade Lenine would be so proud of you :')", "How many times did you read Capital, by Marx ? I would say 2 or 3 times.", "Are you a Gulag administrator ?"]
-LEFT_RESPONSES2 = ["You should read Marx or Kropotkine. In no time you'll say that Staline did nothing wrong.", "I could bet that you're a socialist. Am I wrong ?"]
+LEFT_RESPONSES3 = ["Comrade Lenin would be so proud of you :')", "How many times did you read Das Kapital, by Marx ? I would guess 2 or 3 times.", "Are you a Gulag administrator ?"]
+LEFT_RESPONSES2 = ["You should read Marx or Kropotkin. In no time you'll think that communism is the best thing ever.", "I could bet that you're a socialist. Am I wrong ?"]
 LEFT_RESPONSES1 = ["You should ask me questions, you're on the right way.", "You're the kind of leftist who supports Obama, right ?"]
 
 #Réponses à une phrase potentiellement neutre sur la gauche
