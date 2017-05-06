@@ -12,35 +12,35 @@ Usage :
       You will be required to install the WordNet package from the NLTK library : use "import nltk" then "nltk.download()" in a python CLI then download the wordnet package.
 
 Example :
->>>Hi
+>Hi
 
 [response]
 
->>>How are you ?
+>How are you ?
 
 [response]
 
->>>What's your name ?
+>What's your name ?
 
 [response]
 
->>>How old are you ?
+>How old are you ?
 
 [response]
 
->>>Are you human ?
+>Are you human ?
 
 [response]
 
->>>What is communism ?
+>What is communism ?
 
 [response]
 
->>>Communism is the best thing ever !
+>Communism is the best thing ever !
 
 [response]
 
->>>bye
+>bye
 
 [response]
 
